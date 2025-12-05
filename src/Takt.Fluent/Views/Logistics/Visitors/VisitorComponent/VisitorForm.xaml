@@ -1,0 +1,205 @@
+<Window x:Class="Takt.Fluent.Views.Logistics.Visitors.VisitorComponent.VisitorForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Takt.Fluent.Localization"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:helpers="clr-namespace:Takt.Fluent.Helpers"
+        xmlns:controls="clr-namespace:Takt.Fluent.Controls"
+        mc:Ignorable="d"
+        d:DesignHeight="500"
+        d:DesignWidth="600"
+        Title="{Binding Title}" 
+        SizeToContent="Manual" 
+        WindowStartupLocation="Manual"
+        ResizeMode="CanResize" 
+        Background="{DynamicResource MaterialDesignPaper}">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <helpers:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
+        <helpers:StringToBoolConverter x:Key="StringToBoolConverter"/>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 主表信息 -->
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" Margin="0,0,0,16" MaxHeight="300">
+            <StackPanel Margin="16">
+                <!-- 公司名称 -->
+                <StackPanel Margin="0,0,0,8" MinHeight="56">
+                    <Grid MinHeight="32">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,12,0">
+                            <Run Text="*" Foreground="{DynamicResource SystemFillColorCriticalBrush}"/>
+                            <Run Text="{local:Loc Key=Logistics.Visitors.Visitor.CompanyName}"/>
+                        </TextBlock>
+                        <TextBox Grid.Column="1" 
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                 materialDesign:HintAssist.Hint="{Binding CompanyNameHint}"
+                                 materialDesign:HintAssist.HelperText="{Binding CompanyNameError}"
+                                 materialDesign:TextFieldAssist.DecorationVisibility="Collapsed"
+                                 MinHeight="32"
+                                 Padding="12,6"
+                                 FontSize="13"
+                                 VerticalAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                 materialDesign:HintAssist.Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                 Text="{Binding CompanyName, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                    <TextBlock Grid.Column="1" 
+                               Style="{StaticResource ErrorTextStyle}" 
+                               Text="{Binding CompanyNameError}"
+                               Visibility="{Binding CompanyNameError, Converter={StaticResource EmptyToVisibilityConverter}}"/>
+                </StackPanel>
+
+                <!-- 开始时间 -->
+                <StackPanel Margin="0,0,0,8" MinHeight="56">
+                    <Grid MinHeight="32">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,12,0">
+                            <Run Text="*" Foreground="{DynamicResource SystemFillColorCriticalBrush}"/>
+                            <Run Text="{local:Loc Key=Logistics.Visitors.Visitor.StartTime}"/>
+                        </TextBlock>
+                        <DatePicker Grid.Column="1" 
+                                    SelectedDate="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}"
+                                    materialDesign:HintAssist.Hint="{Binding StartTimeHint}"
+                                    Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
+                    </Grid>
+                    <TextBlock Grid.Column="1" 
+                               Style="{StaticResource ErrorTextStyle}" 
+                               Text="{Binding StartTimeError}"
+                               Visibility="{Binding StartTimeError, Converter={StaticResource EmptyToVisibilityConverter}}"/>
+                </StackPanel>
+
+                <!-- 结束时间 -->
+                <StackPanel Margin="0,0,0,8" MinHeight="56">
+                    <Grid MinHeight="32">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,12,0">
+                            <Run Text="*" Foreground="{DynamicResource SystemFillColorCriticalBrush}"/>
+                            <Run Text="{local:Loc Key=Logistics.Visitors.Visitor.EndTime}"/>
+                        </TextBlock>
+                        <DatePicker Grid.Column="1" 
+                                    SelectedDate="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}"
+                                    materialDesign:HintAssist.Hint="{Binding EndTimeHint}"
+                                    Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
+                    </Grid>
+                    <TextBlock Grid.Column="1" 
+                               Style="{StaticResource ErrorTextStyle}" 
+                               Text="{Binding EndTimeError}"
+                               Visibility="{Binding EndTimeError, Converter={StaticResource EmptyToVisibilityConverter}}"/>
+                </StackPanel>
+
+                <!-- 备注 -->
+                <StackPanel Margin="0,0,0,8" MinHeight="56">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{local:Loc Key=common.audit.Remarks}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,12,0"/>
+                        <StackPanel Grid.Column="1">
+                            <TextBox 
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                materialDesign:HintAssist.HelperText="{Binding RemarksError}"
+                                materialDesign:TextFieldAssist.DecorationVisibility="Collapsed"
+                                Padding="16,10"
+                                FontSize="14"
+                                Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                materialDesign:HintAssist.Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                Text="{Binding Remarks}"
+                                TextWrapping="Wrap" 
+                                AcceptsReturn="True" 
+                                VerticalScrollBarVisibility="Hidden"
+                                MinHeight="120"/>
+                            <TextBlock 
+                                Style="{StaticResource ErrorTextStyle}" 
+                                Text="{Binding RemarksError}"
+                                Margin="0,4,0,0"
+                                Visibility="{Binding RemarksError, Converter={StaticResource EmptyToVisibilityConverter}}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- 子表：访客详情 -->
+        <Border Grid.Row="1" 
+                BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                BorderThickness="0,1,0,0"
+                Margin="0,0,0,16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" 
+                           Text="{local:Loc Key=Logistics.VisitorDetail}" 
+                           FontSize="16" 
+                           FontWeight="SemiBold"
+                           Margin="0,16,0,8"
+                           Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+
+                <controls:TaktInlineEditDataGrid Grid.Row="1"
+                                                 ItemsSource="{Binding VisitorDetails}"
+                                                 SelectedItem="{Binding SelectedVisitorDetail, Mode=TwoWay}"
+                                                 EditingItem="{Binding EditingVisitorDetail, Mode=TwoWay}"
+                                                 ShowQueryArea="False"
+                                                 ShowToolbar="True"
+                                                 ShowToolbarAddRow="True"
+                                                 AddRowCommand="{Binding CreateDetailInlineCommand}"
+                                                 RowUpdateCommand="{Binding UpdateDetailInlineCommand}"
+                                                 RowSaveCommand="{Binding SaveDetailInlineCommand}"
+                                                 RowCancelCommand="{Binding CancelDetailInlineCommand}"
+                                                 RowDeleteCommand="{Binding DeleteDetailCommand}"
+                                                 ShowRowUpdate="True"
+                                                 ShowRowSave="True"
+                                                 ShowRowCancel="True"
+                                                 ShowRowDelete="True"
+                                                 ShowPagination="False"
+                                                 EmptyText="{local:Loc Key=common.noData}">
+                    <controls:TaktInlineEditDataGrid.Columns>
+                        <controls:TaktDataGridColumnDefinition Header="{local:Loc Key=Logistics.Visitors.VisitorDetail.Department}" BindingPath="Department" Width="150" />
+                        <controls:TaktDataGridColumnDefinition Header="{local:Loc Key=Logistics.Visitors.VisitorDetail.Name}" BindingPath="Name" Width="150" />
+                        <controls:TaktDataGridColumnDefinition Header="{local:Loc Key=Logistics.Visitors.VisitorDetail.Position}" BindingPath="Position" Width="150" />
+                        <controls:TaktDataGridColumnDefinition Header="{local:Loc Key=common.audit.Remarks}" BindingPath="Remarks" Width="*" />
+                    </controls:TaktInlineEditDataGrid.Columns>
+                </controls:TaktInlineEditDataGrid>
+            </Grid>
+        </Border>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button IsDefault="True" 
+                    Command="{Binding SaveCommand}" 
+                    Content="{local:Loc Key=common.button.submit}" 
+                    Style="{StaticResource DefaultPrimary}"
+                    Margin="0,0,12,0"/>
+            <Button IsCancel="True" 
+                    Command="{Binding CancelCommand}"
+                    Content="{local:Loc Key=common.button.cancel}"
+                    Style="{StaticResource DefaultInfo}"/>
+        </StackPanel>
+    </Grid>
+</Window>
+
